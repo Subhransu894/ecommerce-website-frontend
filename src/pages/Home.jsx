@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom"
-import { useLocalFetch } from "../hooks/useLocalFetch"
+// import { useLocalFetch } from "../hooks/useLocalFetch"
+import { useFetch } from "../hooks/useFetch"
 export default function Home(){
     const category=[
         {name:"Women",img:"https://picsum.photos/300/200?random=1"},
@@ -7,7 +8,7 @@ export default function Home(){
         {name:"Children",img:"https://picsum.photos/300/200?random=3"},
         {name:"Accessories",img:"https://picsum.photos/300/200?random=4"}
     ]
-    const{data:prod,loading,error}=useLocalFetch()
+    const{data:prod,loading,error}=useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
 
     if(loading) return ( <p className="text-center mt-3">Loading...</p> )
     if(error) return ( <p className="text-center mt-3">Error: {error}</p> )
