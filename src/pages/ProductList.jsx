@@ -22,7 +22,9 @@ export default function ProductList(){
 
     // const {data:products,loading,error}=useLocalFetch()
     const{ data,loading,error} = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
+
     const products = data || [];
+    console.log(products);
 
     const {updateCartCount,updateWishListCount}=useContext(ShopContext)
 
