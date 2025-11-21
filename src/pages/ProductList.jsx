@@ -64,10 +64,10 @@ export default function ProductList(){
 
 
     let filteredProducts = products.filter((prod)=>{
-         // 1️⃣ Search filter
+         // Search filter
         const searchMatch = !searchItem || prod.details.toLowerCase().includes(searchItem.toLowerCase());
 
-        // 2️⃣ Category filter
+        // Category filter
         let categoryMatch = true;
 
         // If URL has a category, start with that
@@ -82,10 +82,10 @@ export default function ProductList(){
                 .includes(prod.category.toLowerCase());
         }
 
-        // 3️⃣ Rating filter
+        // Rating filter
         const ratingMatch = newRating ? prod.rating >= Number(newRating) : true;
 
-        // 4️⃣ Price filter
+        // Price filter
         const priceMatch = Number(price) === 100 ? true : prod.price <= Number(price);
 
         return searchMatch && categoryMatch && ratingMatch && priceMatch;
