@@ -23,8 +23,9 @@ export default function ProductList(){
     // const {data:products,loading,error}=useLocalFetch()
     const{ data,loading,error} = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
 
-    const products = data || [];
-    console.log(products);
+    const products = data?.datas?.products || [];
+
+    
 
     const {updateCartCount,updateWishListCount}=useContext(ShopContext)
 
@@ -55,13 +56,39 @@ export default function ProductList(){
         setPrice(100)
     }
 
-    let filteredProducts = (products || []).filter((prod)=>{
-        const searchMatch = prod.details.toLowerCase().includes(searchItem.toLowerCase())
-        const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(prod.category);
+    // console.log(products);
+    console.log("RAW DATA:", data);
+    console.log("FIRST ITEM:", data?.[0]);
+    console.log("KEYS:", data?.[0] ? Object.keys(data[0]) : "no keys");
+
+
+
+    let filteredProducts = products.filter((prod)=>{
+         // 1️⃣ Search filter
+        const searchMatch = !searchItem || prod.details.toLowerCase().includes(searchItem.toLowerCase());
+
+        // 2️⃣ Category filter
+        let categoryMatch = true;
+
+        // If URL has a category, start with that
+        if (category) {
+            categoryMatch = prod.category.toLowerCase() === category.toLowerCase();
+        }
+
+        // If any checkbox is selected, override / extend the category filter
+        if (selectedCategory.length > 0) {
+            categoryMatch = selectedCategory
+                .map(c => c.toLowerCase())
+                .includes(prod.category.toLowerCase());
+        }
+
+        // 3️⃣ Rating filter
         const ratingMatch = newRating ? prod.rating >= Number(newRating) : true;
-        // const priceMatch =  sortBy === "lowToHigh" ? prod.price <= price : prod.price >= price;
-        const priceMatch = price ? prod.price <= price : true;
-        return  searchMatch && categoryMatch && ratingMatch && priceMatch
+
+        // 4️⃣ Price filter
+        const priceMatch = Number(price) === 100 ? true : prod.price <= Number(price);
+
+        return searchMatch && categoryMatch && ratingMatch && priceMatch;
     })
     // console.log(filteredProducts)
     
@@ -166,9 +193,9 @@ export default function ProductList(){
                         {console.log(category)}
                         <div className="row g-3">
                             {finalProduct.length > 0 ? (finalProduct.map((item)=>(
-                                <div key={item.id} className="col-6 col-md-4 col-lg-3 ">
+                                <div key={item._id} className="col-6 col-md-4 col-lg-3 ">
                                     <div className="card h-100 d-flex flex-column justify-content-between" style={{borderRadius:"0px"}}>
-                                        <Link to={`/products/details/${item.id}`} style={{textDecoration:"none",color:"inherit",}}>
+                                        <Link to={`/products/details/${item._id}`} style={{textDecoration:"none",color:"inherit",}}>
                                             <div style={{pointerEvents:"none"}}>
                                                 <img src={item.image} alt={item.category} className="card-img-top" 
                                                     style={{height:"220px",objectFit:"cover",borderRadius:0}}

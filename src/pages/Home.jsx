@@ -3,10 +3,10 @@ import {Link} from "react-router-dom"
 import { useFetch } from "../hooks/useFetch"
 export default function Home(){
     const category=[
-        {name:"Women",img:"https://picsum.photos/300/200?random=1"},
-        {name:"Men",img:"https://picsum.photos/300/200?random=2"},
-        {name:"Children",img:"https://picsum.photos/300/200?random=3"},
-        {name:"Accessories",img:"https://picsum.photos/300/200?random=4"}
+        {name:"women",img:"https://picsum.photos/300/200?random=1"},
+        {name:"men",img:"https://picsum.photos/300/200?random=2"},
+        {name:"children",img:"https://picsum.photos/300/200?random=3"},
+        {name:"accessories",img:"https://picsum.photos/300/200?random=4"}
     ]
     const{data:prod,loading,error}=useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
 
