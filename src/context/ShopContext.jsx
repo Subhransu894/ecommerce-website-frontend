@@ -18,7 +18,9 @@ export function ShopProvider({children}){
     const[searchItem,setSearchItem]=useState("")
 
     const updateCartCount = () => {
-        setCartCount(getCart().length);
+        const cart = getCart();
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        setCartCount(totalQty);
     };
 
     const updateWishListCount = () => {
@@ -31,10 +33,10 @@ export function ShopProvider({children}){
         updateCartCount();
         toast.success(`${Prod.details} added to cart`)
     }
-    const removeItemFromCart=(Prod)=>{
-        storageRemoveFromCart(Prod);
+    const removeItemFromCart=(id)=>{
+        storageRemoveFromCart(id);
         updateCartCount();
-        toast.error(`${Prod.details} remove from cart`)
+        toast.error(`remove item from cart`)
     }
     const incrementQuantity = (id)=>{
         storageIncrsQty(id)
@@ -52,10 +54,10 @@ export function ShopProvider({children}){
         updateWishListCount();
         toast.success(`${Prod.details} added to wishList`)
     }
-    const removeItemFromWishList=(Prod)=>{
-        storageRemoveWishList(Prod);
+    const removeItemFromWishList=(id)=>{
+        storageRemoveWishList(id);
         updateWishListCount();
-        toast.error(`${Prod.details} remove from wishList`)
+        toast.error(`Item remove from wishList`)
     }
     return(
         <ShopContext.Provider value={{

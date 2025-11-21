@@ -10,7 +10,7 @@ export const saveCart=(cart)=>{
 
 export const addToCart=(product)=>{
     const cart=getCart();
-    const exists = cart.find(item => item.id === product.id);
+    const exists = cart.find(item => item._id === product._id);
 
     if (exists) {
         exists.qty += 1;
@@ -24,7 +24,7 @@ export const addToCart=(product)=>{
 
 export const incrsQty=(id)=>{
     const cart=getCart();
-    const item = cart.find((p)=>p.id === id) 
+    const item = cart.find((p)=>p._id === id) 
     if(item){
         item.qty += 1;
     }
@@ -32,7 +32,7 @@ export const incrsQty=(id)=>{
 }
 export const dcrsQty=(id)=>{
     const cart=getCart();
-    const item = cart.find((p)=>p.id === id)
+    const item = cart.find((p)=>p._id === id)
     if(item && item.qty>1){
         item.qty -= 1
     }
@@ -40,7 +40,7 @@ export const dcrsQty=(id)=>{
 }
 export const removeFromCart =(id)=>{
     let cart = getCart();
-    cart = cart.filter((item)=> item.id !== id);
+    cart = cart.filter((item)=> item._id !== id);
     saveCart(cart);
 }
 
@@ -54,7 +54,7 @@ export const saveWishList=(wishlist)=>{
 
 export const addToWishList=(product)=>{
     const wishlist = getWishList();
-    const exists = wishlist.find((item)=>item.id === product.id)
+    const exists = wishlist.find((item)=>item._id === product.id)
 
     if(!exists){
         wishlist.push(product);
@@ -63,7 +63,7 @@ export const addToWishList=(product)=>{
 }
 export const removeWishList=(id)=>{
     let wishlist = getWishList()
-    wishlist = wishlist.filter((item)=> item.id !== id)
+    wishlist = wishlist.filter((item)=> item._id !== id)
     saveWishList(wishlist);
     return wishlist;
 }

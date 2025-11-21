@@ -12,10 +12,10 @@ export default function WishList(){
     const handleMoveToCart=(item)=>{
         // 1. Add to cart
         addItemToCart(item)
-        updateCartCount()
+        
         // 2. remove from wishist
-        removeItemFromWishList(item.id)
-        updateWishListCount()
+        removeItemFromWishList(item._id)
+        
         //update component ui
         setWishList(getWishList())
     }

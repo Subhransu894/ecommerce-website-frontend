@@ -7,23 +7,27 @@ import { toast } from "react-toastify";
 import { useFetch } from "../hooks/useFetch";
 
 export default function ProductDetails(){
-    const[size,setSize]=useState("")
     const Sizes=['S','M','L','XL'];
     const {id}=useParams();
-    // console.log(id)
 
-    const { data: products, loading, error } = useFetch("/api/products");
+    const[size,setSize]=useState("")
+    const[quantity,setQuantity]=useState(1)
+    const [wishIds,setWishIds]=useState(()=> getWishList().map((item)=> item._id ))
+    
+   
+    const { data, loading, error } = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products");
+    const products = data?.datas?.products || [];
+
+    const prod = products.find((p)=> p._id === id)
 
     if (loading) return <h2 className="text-center mt-4">Loading product...</h2>;
     if (error) return <h2 className="text-center mt-4 text-danger">{error}</h2>;
-
-    const prod = products.find((p)=> p.id === Number(id))
+    if (!prod) return <h2 className="text-center mt-4">No Product is there</h2>;
     // console.log(prod);
-    if(!prod) return ( <h2 className="text-center">No Product is there</h2> )
 
     
     const wishList = getWishList()
-    const isWishListed = wishList.some((p)=> p.id === prod.id)
+    const isWishListed = wishList.some((p)=> p._id === prod.id)
     // console.log(isWishListed)
     // const handleWishToggle=()=>{
     //     if(isWishListed){
@@ -34,30 +38,37 @@ export default function ProductDetails(){
     //     updateWishListCount()
     // }
 
-    const { updateCartCount,updateWishListCount } = useContext(ShopContext)
-
-    const {addItemToCart,addItemToWishList,incrementQuantity,decrementQuantity} =useContext(ShopContext)
+    const {
+        updateCartCount,
+        updateWishListCount,
+        addItemToCart,
+        addItemToWishList,
+        incrementQuantity,
+        decrementQuantity,
+        removeItemFromWishList,
+    } =useContext(ShopContext)
     
-    const [wishIds,setWishIds]=useState(()=> getWishList().map((item)=> item.id ))
+    
     const toggleWish=(prod)=>{
-        if(wishIds.includes(prod.id)){
-            removeWishList(prod.id)
-            setWishIds(prev=>prev.filter((id)=>id !== prod.id))
+        if(wishIds.includes(prod._id)){
+            removeItemFromWishList(prod._id)
+            setWishIds(prev=>prev.filter((id)=>id !== prod._id))
         }else{
-            addToWishList(prod)
-            setWishIds(prev=>[...prev,prod.id]);
+            addItemToWishList(prod._id)
+            setWishIds(prev=>[...prev,prod]);
+            // addItemToCart(prod)
         }
         updateWishListCount()
     }
 
-    const[quantity,setQuantity]=useState(1)
+   
     const handleIncr = ()=>{
-        incrementQuantity(prod.id)
+        incrementQuantity(prod._id)
         setQuantity(prev=>prev+1);
     }
     const handleDecr = ()=>{
         if(quantity > 1) {
-            decrementQuantity(prod.id)
+            decrementQuantity(prod._id)
            setQuantity(prev=>prev-1)
         }   
     }
@@ -101,7 +112,7 @@ export default function ProductDetails(){
                     <div className="col-md-5">
                         <div className="position-relative" style={{ width: "100%", height: "400px" }} >
                             <img src={prod.image} alt={prod.category} className="w-100 h-100" style={{ objectFit: "cover" }}/>
-                            <i className={`bi ${wishIds.includes(prod.id) ? "bi-heart-fill text-danger" : "bi-heart"}`}
+                            <i className={`bi ${wishIds.includes(prod._id) ? "bi-heart-fill text-danger" : "bi-heart"}`}
                                 style={{ 
                                     position: "absolute",
                                     top: "12px",
@@ -118,7 +129,7 @@ export default function ProductDetails(){
                                     lineHeight: 0,          // fixes vertical misalignment
                                     transform: "translateY(2px)"
                                 }}
-                                onClick={()=>addItemToWishList(prod)}
+                                onClick={()=>toggleWish(prod)}
                             ></i>
                         </div>
                         <button className="btn btn-primary w-100 mt-3">Buy Now</button>
@@ -344,14 +355,14 @@ export default function ProductDetails(){
                 <h5 style={{marginTop:"20px",marginBottom:"20px"}}>More items you may like in apparel</h5>
                 <div className="row">
                     {products.map((item)=>(
-                        <div className="col-md-3 mb-4" key={item.id}>
+                        <div className="col-md-3 mb-4" key={item._id}>
                              {/* Image part */}
                             <div className="position-relative"
                                 style={{ width: "100%", height: "350px", overflow: "hidden" }}
                             >
                                 <img src={item.image} alt={item.category} className="w-100 h-100" style={{ objectFit: "cover" }}/>
                                 <i 
-                                    className={`bi ${wishIds.includes(item.id) ? "bi-heart-fill text-danger" : "bi-heart"}`}
+                                    className={`bi ${wishIds.includes(item._id) ? "bi-heart-fill text-danger" : "bi-heart"}`}
                                     style={{
                                         position: "absolute",
                                         top: "12px",
@@ -366,7 +377,7 @@ export default function ProductDetails(){
                                         height: "35px",
                                         display: "flex"
                                     }}
-                                    onClick={()=>addItemToWishList(item)}
+                                    onClick={()=>toggleWish(item)}
                                 ></i>
                             </div>
                             {/* text and button part */}

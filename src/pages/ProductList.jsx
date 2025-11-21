@@ -18,7 +18,7 @@ export default function ProductList(){
     const[newRating,setNewRating]=useState("")
     const[sortBy,setSortBy]=useState("lowToHigh")
     
-    const{ addItemToCart,addItemToWishList }=useContext(ShopContext)
+    const{  cartCount, wishListCount,addItemToCart,addItemToWishList,removeItemFromWishList }=useContext(ShopContext)
 
     // const {data:products,loading,error}=useLocalFetch()
     const{ data,loading,error} = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
@@ -40,14 +40,21 @@ export default function ProductList(){
         }
     }
 
-    // const handleAddToCart=(item)=>{
-    //     addToCart(item)
-    //     updateCartCount()
-    // }
-    // const handleAddToWishList=(item)=>{
-    //     addToWishList(item)
-    //     updateWishListCount()
-    // }
+    const handleCartClick = (item) => {
+        addItemToCart(item); // adds item to cart & updates counter via context
+    };
+
+    const handleWishClick = (item) => {
+        const wishList = getWishList(); // get current wishlist
+        const exists = wishList.some(p => p._id === item._id);
+
+        if (exists) {
+            removeItemFromWishList(item._id); // remove from wishlist + update counter
+        } else {
+            addItemToWishList(item); // add to wishlist + update counter
+        }
+    };
+
 
     const clearFilters=()=>{
         setSelectedCategory([])
@@ -225,12 +232,12 @@ export default function ProductList(){
                                         </Link>  
                                         <div className="mt-0" style={{pointerEvents:"auto"}}>
                                             <button className="btn btn-primary btn-sm w-100" style={{borderRadius:0,marginTop: "4px" }}
-                                                    onClick={()=>addItemToCart(item)}
+                                                    onClick={()=>handleCartClick(item)}
                                             >
                                                 Add to Cart
                                             </button>
                                             <button className="btn btn-secondary btn-sm w-100" style={{borderRadius:0,marginTop: "0" }}
-                                                    onClick={()=>addItemToWishList(item)}
+                                                    onClick={()=>handleWishClick(item)}
                                             >
                                                 Add to Wishlist
                                             </button>

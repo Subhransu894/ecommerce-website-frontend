@@ -35,14 +35,11 @@ export default function Cart(){
     const handleRemove = (id)=>{
         removeItemFromCart(id)
         setCartItems(getCart())
-        updateCartCount();
     }
     const handleMoveToWishList=(item)=>{
         addItemToWishList(item)
-        removeItemFromCart(item.id)
+        removeItemFromCart(item._id)
         setCartItems(getCart())
-        updateWishListCount()
-        updateCartCount()
     }
 
     const handleCheckout=async()=>{
