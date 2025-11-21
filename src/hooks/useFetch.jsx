@@ -8,7 +8,7 @@ export function useFetch(url){
         try {
             setLoading(true)
 
-            const res = fetch(url);
+            const res =await fetch(url);
             if(!res.ok){
                 throw new Error ("Failed to fetch data");
             }

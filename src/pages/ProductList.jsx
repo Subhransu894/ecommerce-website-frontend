@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "./Products";
-import { useLocalFetch } from "../hooks/useLocalFetch";
+// import { products } from "./Products";
+// import { useLocalFetch } from "../hooks/useLocalFetch";
+import { useFetch } from "../hooks/useFetch";
 
 import { addToCart,addToWishList,getWishList } from "../utils/Storage";
 
@@ -19,7 +20,9 @@ export default function ProductList(){
     
     const{ addItemToCart,addItemToWishList }=useContext(ShopContext)
 
-    const {data:products,loading,error}=useLocalFetch()
+    // const {data:products,loading,error}=useLocalFetch()
+    const{ data,loading,error} = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products")
+    const products = data || [];
 
     const {updateCartCount,updateWishListCount}=useContext(ShopContext)
 
