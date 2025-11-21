@@ -112,16 +112,16 @@ export default function Cart(){
                                     </span>
                                      <div className="d-flex align-items-center gap-2">
                                         <button className="btn btn-sm btn-outline-secondary"
-                                            onClick={() => handleDecrease(item.id)}>-</button>
+                                            onClick={() => handleDecrease(item._id)}>-</button>
                                         
                                         <span>{item.qty}</span>
 
                                         <button className="btn btn-sm btn-secondary"
-                                            onClick={() => handleIncrease(item.id)}>+</button>
+                                            onClick={() => handleIncrease(item._id)}>+</button>
                                     </div>
                                     <div className="mt-2 d-flex gap-3">
                                         <button className="btn btn-sm btn-secondary"
-                                            onClick={() => handleRemove(item.id)}>Remove</button>
+                                            onClick={() => handleRemove(item._id)}>Remove</button>
 
                                         <button className="btn btn-sm btn-outline-secondary"
                                             onClick={() => handleMoveToWishList(item)}>

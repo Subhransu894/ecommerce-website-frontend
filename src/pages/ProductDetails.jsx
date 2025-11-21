@@ -12,13 +12,23 @@ export default function ProductDetails(){
 
     const[size,setSize]=useState("")
     const[quantity,setQuantity]=useState(1)
-    const [wishIds,setWishIds]=useState(()=> getWishList().map((item)=> item._id ))
-    
-   
+
     const { data, loading, error } = useFetch("https://ecommerce-website-backend-umber.vercel.app/api/products");
     const products = data?.datas?.products || [];
 
     const prod = products.find((p)=> p._id === id)
+
+     const {
+        updateCartCount,
+        updateWishListCount,
+        addItemToCart,
+        addItemToWishList,
+        incrementQuantity,
+        decrementQuantity,
+        removeItemFromWishList,
+    } =useContext(ShopContext)
+
+    const [wishIds,setWishIds]=useState(()=> getWishList().map((item)=> item._id ))
 
     if (loading) return <h2 className="text-center mt-4">Loading product...</h2>;
     if (error) return <h2 className="text-center mt-4 text-danger">{error}</h2>;
@@ -26,8 +36,8 @@ export default function ProductDetails(){
     // console.log(prod);
 
     
-    const wishList = getWishList()
-    const isWishListed = wishList.some((p)=> p._id === prod.id)
+    // const wishList = getWishList()
+    // const isWishListed = wishList.some((p)=> p._id === prod.id)
     // console.log(isWishListed)
     // const handleWishToggle=()=>{
     //     if(isWishListed){
@@ -37,46 +47,29 @@ export default function ProductDetails(){
     //     }
     //     updateWishListCount()
     // }
-
-    const {
-        updateCartCount,
-        updateWishListCount,
-        addItemToCart,
-        addItemToWishList,
-        incrementQuantity,
-        decrementQuantity,
-        removeItemFromWishList,
-    } =useContext(ShopContext)
-    
-    
+ 
     const toggleWish=(prod)=>{
         if(wishIds.includes(prod._id)){
             removeItemFromWishList(prod._id)
             setWishIds(prev=>prev.filter((id)=>id !== prod._id))
         }else{
-            addItemToWishList(prod._id)
-            setWishIds(prev=>[...prev,prod]);
-            // addItemToCart(prod)
+            addItemToWishList(prod)
+            setWishIds(prev=>[...prev,prod._id]);  
         }
         updateWishListCount()
     }
 
    
-    const handleIncr = ()=>{
-        incrementQuantity(prod._id)
-        setQuantity(prev=>prev+1);
-    }
-    const handleDecr = ()=>{
-        if(quantity > 1) {
-            decrementQuantity(prod._id)
-           setQuantity(prev=>prev-1)
-        }   
-    }
-
-    // const handleAddToCart=()=>{
-    //     addToCart(prod);
-    //     updateCartCount()
-    // }
+    const handleIncr = () => {
+        incrementQuantity(prod._id);
+        setQuantity(prev => prev + 1);
+    };
+    const handleDecr = () => {
+        if (quantity > 1) {
+            decrementQuantity(prod._id);
+            setQuantity(prev => prev - 1);
+        }
+    };
     
     //stars pattern
     const renderStar=(rating)=>{
@@ -133,7 +126,10 @@ export default function ProductDetails(){
                             ></i>
                         </div>
                         <button className="btn btn-primary w-100 mt-3">Buy Now</button>
-                        <button className= "btn  btn-secondary w-100 mt-3" onClick={()=> addItemToCart(prod)}>Add to Cart</button>
+                        <button className= "btn  btn-secondary w-100 mt-3" onClick={()=>{
+                            addItemToCart(prod)
+                            updateCartCount()
+                            }}>Add to Cart</button>
                     </div>
                     {/* right side */}
                      <div className="col-md-7">
