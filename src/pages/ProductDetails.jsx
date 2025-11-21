@@ -1,15 +1,22 @@
-import { products } from "./Products";
+// import { products } from "./Products";
 import { useParams } from "react-router-dom"
 import { useContext, useState } from "react";
 import { getWishList,addToWishList,removeWishList,addToCart } from "../utils/Storage";
 import ShopContext from "../context/ShopContext";
 import { toast } from "react-toastify";
+import { useFetch } from "../hooks/useFetch";
 
 export default function ProductDetails(){
     const[size,setSize]=useState("")
     const Sizes=['S','M','L','XL'];
     const {id}=useParams();
     // console.log(id)
+
+    const { data: products, loading, error } = useFetch("/api/products");
+
+    if (loading) return <h2 className="text-center mt-4">Loading product...</h2>;
+    if (error) return <h2 className="text-center mt-4 text-danger">{error}</h2>;
+
     const prod = products.find((p)=> p.id === Number(id))
     // console.log(prod);
     if(!prod) return ( <h2 className="text-center">No Product is there</h2> )
