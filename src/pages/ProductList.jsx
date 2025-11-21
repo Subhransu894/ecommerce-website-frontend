@@ -53,7 +53,7 @@ export default function ProductList(){
         setPrice(100)
     }
 
-    let filteredProducts = products.filter((prod)=>{
+    let filteredProducts = (products || []).filter((prod)=>{
         const searchMatch = prod.details.toLowerCase().includes(searchItem.toLowerCase())
         const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(prod.category);
         const ratingMatch = newRating ? prod.rating >= Number(newRating) : true;
