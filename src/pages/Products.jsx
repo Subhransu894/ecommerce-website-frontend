@@ -11,7 +11,7 @@ export const products=[
             id:2,
             category:"men",
             image:"https://picsum.photos/300/200?random=2",
-            details:"It looks good on all men.It's a classic apparel for men. ",
+            details:"A Specialize product which gives manly vibe. ",
             price:300,
             rating:3.5,
         },
