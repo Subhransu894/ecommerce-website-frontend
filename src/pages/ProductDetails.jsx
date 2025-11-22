@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { useContext, useState } from "react";
 import { getWishList,addToWishList,removeWishList,addToCart } from "../utils/Storage";
 import ShopContext from "../context/ShopContext";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useFetch } from "../hooks/useFetch";
 
 export default function ProductDetails(){
