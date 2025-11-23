@@ -9,21 +9,26 @@ export default function Nav({isLoggedIn}){
 
     return(
         <>
-            <nav className='navbar bg-light px-3'>
-                <div className='container d-flex align-items-center justify-content-between'>
+            <nav className='navbar  navbar-expand-md bg-light px-3'>
+                <div className='container d-flex align-items-center justify-content-between' style={{ rowGap: "10px" }} >
                     <div className='d-flex align-items-center gap-3'>
                         <Link to="/" style={{textDecoration:"none", color:"gray"}}>
                             <h6>MyShopingApp</h6>
                         </Link>
                     </div>
 
-                        <form className='position-relative'>
+                        <form className='position-relative' style={{
+                                flexGrow: 1,
+                                maxWidth: "300px",
+                                minWidth: "160px",   // keeps input usable on phones
+                            }}
+                        >
                             <i className='bi bi-search text-secondary position-absolute top-50 start-0 translate-middle-y ms-2'></i>
                             <input type="search" placeholder='Search' className="form-control ps-5"
-                            style={{ width: "220px" }} value={searchItem} onChange={(e)=>setSearchItem(e.target.value)}/>
+                            style={{ width: "220px",maxWidth: "100%" }} value={searchItem} onChange={(e)=>setSearchItem(e.target.value)}/>
                         </form>
 
-                    <div  className="d-flex align-items-center gap-3 me-3">
+                    <div  className="d-flex align-items-center gap-3 me-3 flex-wrap">
                         {/* <button className='btn btn-secondary btn-sm'>Login</button> */}
                         {!isLoggedIn && (
                             <button
