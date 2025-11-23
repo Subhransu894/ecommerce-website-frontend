@@ -3,23 +3,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function(){
-    const { address, addAddress, deleteAddress, chooseAddress, selectAddress } = useAddress();
+    const { address, addAddress, deleteAddress, chooseAddress, selectAddress,updateAddress } = useAddress();
     const [showModal, setShowModal] = useState(false); // control popup
     const [form, setForm] = useState({ name:"", phone:"", addressPlace:"", emailid:"", pincode:"" });
     const [message, setMessage] = useState("");
+    const [editAddress,setEditAddress]=useState(null);
     const navigate = useNavigate()
 
       const handleAddAddress = (e) => {
         e.preventDefault();
         if (!form.name || !form.phone || !form.addressPlace || !form.emailid || !form.pincode) {
-        alert("Please fill all fields");
-        return;
+            alert("Please fill all fields");
+            return;
         }
 
-        addAddress(form);
-        setForm({ name:"", phone:"", addressPlace:"", emailid:"", pincode:"" });
-        setShowModal(false); // Close popup
-        setMessage("Address added successfully!");
+        if(editAddress){
+            // update existing
+            // deleteAddress(editAddress.id);
+            updateAddress({...form, id:editAddress.id})
+            setMessage("Address updated successfully!");
+        }else{
+            //create new
+            addAddress(form)
+            setMessage("Address added successfully!");
+        }
+        setEditAddress(null)
+        setShowModal(false)
+        setForm({name:"",phone:"",addressPlace:"",emailid:"",pincode:""})
 
         setTimeout(() => setMessage(""), 3000); // remove message after 3 sec
     };
@@ -30,7 +40,11 @@ export default function(){
             <h2 className="text-center mt-2">Manage Address</h2>
             {message && <p style={{ color:"green" , textAlign:"center" ,marginTop:"10px", fontWeight:"600"}}>{message}</p>}
              <button 
-                onClick={() => setShowModal(true)}
+                onClick={() =>{ 
+                    setEditAddress(null)
+                    setShowModal(true)
+                    setForm({name:"",phone:"",addressPlace:"",emailid:"",pincode:""})
+                    }}
                 style={{ marginBottom:"20px", padding:"10px 15px", background:"#3a86ff", color:"#fff", border:"none", borderRadius:"4px", cursor:"pointer" }}
             >
                 Add New Address
@@ -68,6 +82,14 @@ export default function(){
                                     }}
                             >
                                 {selectAddress===add.id ? "Selected":"Select"}
+                            </button>
+                            <button onClick={()=>{
+                                    setEditAddress(add) // store the address you want to edit
+                                    setForm(add) //  pre-fill the form
+                                    setShowModal(true)
+                                }}
+                            >
+                                {editAddress ? "Updated" : "Edit"}
                             </button>
                             <button onClick={() => deleteAddress(add.id)}
                                     style={{ flex:1, padding:"8px", background:"#ff4d4f", color:"#fff", 

@@ -19,8 +19,9 @@ export function ShopProvider({children}){
 
     const updateCartCount = () => {
         const cart = getCart();
-        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-        setCartCount(totalQty);
+        // const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        // setCartCount(totalQty);
+        setCartCount(cart.length)
     };
 
     const updateWishListCount = () => {

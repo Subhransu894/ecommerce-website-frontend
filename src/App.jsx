@@ -14,18 +14,20 @@ import OrderHistory from './pages/OrderHistory'
 import { ShopProvider } from './context/ShopContext'
 import { AddressProvider } from './context/AddressContext'
 import AddressPage from './pages/AddressPage'
+import Footer from './components/Footer'
 
 import { ToastContainer } from "react-toastify";
 
 
 function App() {
-  // const[isLoggedIn,setIsLoggedIn]=useState(false)
   return (
     <>
+    <div style={{minHeight:"100vh",  display: "flex",flexDirection: "column"}}>
     <AddressProvider>
       <ShopProvider>
         <Router>
           <Nav />
+          <div style={{ flex: 1 }}>
           <Routes>
             <Route path='/' element={<Home/>}></Route>
             <Route path='/products/:category' element={<ProductList/>} />
@@ -36,6 +38,8 @@ function App() {
             <Route path='/profile' element={<UserProfile/>} />
             <Route path='/orders' element={<OrderHistory/>} />
           </Routes>
+          </div>
+          <Footer/>
         </Router>
       </ShopProvider>
     </AddressProvider>
@@ -50,6 +54,7 @@ function App() {
         draggable
         pauseOnHover
       />
+      </div>
     </>
   )
 }

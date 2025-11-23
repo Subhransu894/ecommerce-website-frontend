@@ -18,7 +18,6 @@ export default function Cart(){
 
     useEffect(()=>{
         const cart = getCart();
-        // console.log("CART: ", cart);  
         setCartItems(cart);
     },[]);
 
@@ -42,50 +41,54 @@ export default function Cart(){
         setCartItems(getCart())
     }
 
-    const handleCheckout=async()=>{
-        if(!selected){
-            alert("Please selecte a address")
-            return
+    const handleCheckout = async () => {
+        if (!selected) {
+            alert("Please select an address");
+            return;
         }
-        const currentId = "691db67da27d895cb07c0612"
-        const orderedData ={
-            userId:currentId,
-            items:cartItems.map(item => ({
-                productId: item.id,
+
+        const currentId = "691db67da27d895cb07c0612"; // your userId placeholder
+
+        const orderData = {
+                userId: currentId,
+                items: cartItems.map(item => ({
+                productId: item._id,
                 qty: item.qty,
                 price: item.price
             })),
             address: {
-                fullAddress: selected.addressPlace ,
+                fullAddress: selected.addressPlace,
                 pincode: selected.pincode
             },
-            totalAmount: cartItems.reduce((sum,itm)=> sum + itm.price * itm.qty,0)
-        }
-        console.log("PRODUCT IDS =>", cartItems.map(item => item.id));
-        console.log("FINAL ORDERED DATA =>", orderedData);
-        try {
-            const response = await fetch("http://localhost:3000/api/orders",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                body:JSON.stringify(orderedData)
-            })
+                totalAmount: cartItems.reduce((sum, itm) => sum + itm.price * itm.qty, 0)
+        };
 
-            if(response.ok){
+        try {
+            const response = await fetch("https://ecommerce-website-backend-umber.vercel.app/api/orders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Order saved in DB:", result.order);
+
+                alert("Order Placed Successfully"); // show success message
+
+                // clear cart but keep your cart logic intact
+                localStorage.removeItem("cart");
+                setCartItems([]);
+                updateCartCount();
                 setOrderPlaced(true);
-                localStorage.removeItem("cart")
-                setCartItems([])
-                updateCartCount()
-                alert("Order Place Suucessfully")
-            }else{
-                alert("failed to placed order")
+            } else {
+                alert("Failed to place order");
             }
         } catch (error) {
-            console.log("Order Failed",error)
-            alert("Something went wrong")
+            console.log("Order Failed", error);
+            alert("Something went wrong");
         }
-    }
+};
 
     const totalPrice = cartItems.reduce((sum,item)=>sum+item.price*item.qty,0);
     const totalQty = cartItems.reduce((sum,item)=> sum+item.qty,0)

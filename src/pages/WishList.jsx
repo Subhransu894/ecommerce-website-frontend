@@ -19,6 +19,10 @@ export default function WishList(){
         //update component ui
         setWishList(getWishList())
     }
+    const handleRemove=(id)=>{
+        removeItemFromWishList(id)
+        setWishList(getWishList())
+    }
     
     return(
         <div className="container">
@@ -26,12 +30,17 @@ export default function WishList(){
             {wishList.length === 0 ? ( <p>No products found</p> ) :
                 <div className="row g-3">
                     {wishList.map((item)=>(
-                        <div key={item.id} className="col-6 col-md-4 col-lg-3">
-                            <div className="card-body p2">
-                                <img src={item.image} alt={item.category} className="card-img-top"/>
+                        <div key={item._id} className="col-6 col-md-4 col-lg-3">
+                            <div className="card h-100 d-flex flex-column p-2">
+                                <img src={item.image} alt={item.category} className="card-img-top"
+                                    style={{ height: "200px", objectFit: "cover" }}
+                                />
                                 <p className="text-center mt-2">{item.details}</p>
                                 <p className="text-center">₹{item.price}</p>
-                                <button className="btn btn-secondary w-100" onClick={()=>handleMoveToCart(item)}>Move to Cart</button>
+                                <div className="mt-auto">
+                                    <button className="btn btn-secondary w-100" onClick={()=>handleMoveToCart(item)}>Move to Cart</button>
+                                    <button className="btn btn-danger w-100" onClick={()=>handleRemove(item._id)}>Delete</button>
+                                </div>
                             </div>
                         </div>
                     ))}
