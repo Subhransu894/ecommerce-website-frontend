@@ -81,6 +81,7 @@ export default function Cart(){
                 setCartItems([]);
                 updateCartCount();
                 setOrderPlaced(true);
+                navigate("/orders")
             } else {
                 alert("Failed to place order");
             }

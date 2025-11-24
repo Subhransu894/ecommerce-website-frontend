@@ -56,6 +56,7 @@ export default function ProductList(){
     };
 
 
+
     const clearFilters=()=>{
         setSelectedCategory([])
         setNewRating(null)
@@ -199,8 +200,10 @@ export default function ProductList(){
                         <h2 className="mb-4">showing {category}'s apparel colllections</h2>
                         {console.log(category)}
                         <div className="row g-3">
-                            {finalProduct.length > 0 ? (finalProduct.map((item)=>(
-                                <div key={item._id} className="col-6 col-md-4 col-lg-3 ">
+                            {finalProduct.length > 0 ? (finalProduct.map((item)=>{
+                                const isInWishlist = getWishList().some(w => w._id === item._id);
+                                return(
+                                    <div key={item._id} className="col-6 col-md-4 col-lg-3 ">
                                     <div className="card h-100 d-flex flex-column justify-content-between" style={{borderRadius:"0px"}}>
                                         <Link to={`/products/details/${item._id}`} style={{textDecoration:"none",color:"inherit",}}>
                                             <div style={{pointerEvents:"none"}}>
@@ -239,14 +242,15 @@ export default function ProductList(){
                                             <button className="btn btn-secondary btn-sm w-100" style={{borderRadius:0,marginTop: "0" }}
                                                     onClick={()=>handleWishClick(item)}
                                             >
-                                                Add to Wishlist
+                                                {isInWishlist ? "Remove From Wishlist" : "Add To Wishlist"}
                                             </button>
                                         </div>   
                                     </div>
                                            
                                 </div>
+                                );  
                                 
-                            ))) :  ( <p>No products available for {category}</p> )}
+                            })) :  ( <p>No products available for {category}</p> )}
                         </div>
                     </div>
                 </div>
