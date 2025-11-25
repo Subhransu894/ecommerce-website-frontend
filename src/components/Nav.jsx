@@ -10,7 +10,9 @@ export default function Nav({isLoggedIn}){
     return(
         <>
             <nav className='navbar  navbar-expand-md bg-light px-3 justify-content-between justify-content-md-center'>
-                <div className='container d-flex align-items-center justify-content-between gap-4' style={{ rowGap: "10px" }} >
+                <div className='container d-flex align-items-center justify-content-between gap-4' 
+                    style={{ rowGap: "12px" }} 
+                >
                     <div className='d-flex align-items-center gap-4'>
                         <Link to="/" style={{textDecoration:"none", color:"gray"}}>
                             <h6 style={{ margin: 0, fontWeight: 600 }}>MyShopingApp</h6>
@@ -29,7 +31,6 @@ export default function Nav({isLoggedIn}){
                         </form>
 
                     <div  className="d-flex align-items-center gap-3 me-3 flex-wrap">
-                        {/* <button className='btn btn-secondary btn-sm'>Login</button> */}
                         {!isLoggedIn && (
                             <button
                                 className="btn btn-secondary btn-sm px-3 py-1"
@@ -65,5 +66,6 @@ export default function Nav({isLoggedIn}){
                 </div>
             </nav>
         </>
+
     )
 }

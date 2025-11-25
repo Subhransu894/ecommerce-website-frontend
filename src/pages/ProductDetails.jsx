@@ -125,7 +125,6 @@ export default function ProductDetails(){
                                 onClick={()=>toggleWish(prod)}
                             ></i>
                         </div>
-                        <button className="btn btn-primary w-100 mt-3">Buy Now</button>
                         <button className= "btn  btn-secondary w-100 mt-3" onClick={()=>{
                             addItemToCart(prod)
                             updateCartCount()
