@@ -16,6 +16,10 @@ import { AddressProvider } from './context/AddressContext'
 import AddressPage from './pages/AddressPage'
 import Footer from './components/Footer'
 
+import Register from './pages/Register'
+import Login from './pages/Login'
+import ProtectedRoutes from './components/ProtectedRoutes'
+
 import { ToastContainer } from "react-toastify";
 
 
@@ -30,13 +34,17 @@ function App() {
           <div style={{ flex: 1 }}>
           <Routes>
             <Route path='/' element={<Home/>}></Route>
+
+            <Route path='/login' element={<Login/>}/>
+            <Route path='register' element={<Register/>}/>
+            
             <Route path='/products/:category' element={<ProductList/>} />
             <Route path='/products/details/:id' element={<ProductDetails/>} />
-            <Route path='/wishlist' element={<WishList/>}/>
+            <Route path='/wishlist' element={<ProtectedRoutes><WishList/></ProtectedRoutes>}/>
             <Route path='/cart' element={<Cart/>}/>
-            <Route path='/address' element={<AddressPage/>}/>
-            <Route path='/profile' element={<UserProfile/>} />
-            <Route path='/orders' element={<OrderHistory/>} />
+            <Route path='/address' element={<ProtectedRoutes><AddressPage/></ProtectedRoutes>}/>
+            <Route path='/profile' element={<ProtectedRoutes><UserProfile/></ProtectedRoutes>} />
+            <Route path='/orders' element={<ProtectedRoutes><OrderHistory/></ProtectedRoutes>} />
           </Routes>
           </div>
           <Footer/>

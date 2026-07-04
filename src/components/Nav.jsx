@@ -1,11 +1,25 @@
-import { Link} from "react-router-dom"
+import { Link,useNavigate} from "react-router-dom"
 // import { useEffect,useState } from "react"
 // import { getWishList } from "../utils/Storage"
 import ShopContext from "../context/ShopContext";
 import { useContext } from "react";
-export default function Nav({isLoggedIn}){
+import useAuth from "../hooks/useAuth";
+
+export default function Nav(){
     const {wishListCount,cartCount}=useContext(ShopContext)
     const{searchItem,setSearchItem}=useContext(ShopContext)
+
+    //testing puropse to check is all ok->
+    // const {user,token} = useAuth()
+    // console.log(user);
+    // console.log(token);
+
+    const {user,logout} = useAuth()
+    const navigate = useNavigate()
+    const handleLogout = ()=>{
+        logout()
+        navigate("/")
+    }
 
     return(
         <>
@@ -31,13 +45,23 @@ export default function Nav({isLoggedIn}){
                         </form>
 
                     <div  className="d-flex align-items-center gap-3 me-3 flex-wrap">
-                        {!isLoggedIn && (
-                            <button
-                                className="btn btn-secondary btn-sm px-3 py-1"
-                            >
-                                Login
-                            </button>
-                        )}
+                       {!user ? (
+                            <>
+                                <Link to="/login"  className="btn btn-secondary btn-sm px-3 py-1 text-decoration-none">
+                                    Login
+                                </Link>
+                                <Link to="/register" className="btn btn-outline-secondary btn-sm px-3 py-1 text-decoration-none">
+                                    Register
+                                </Link>
+                            </>
+                       ):(
+                            <>
+                                <span>Hello, {user.name}</span>
+                                <button className="btn btn-danger btn-sm" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </>
+                       )}
                         <Link to="/wishlist" className="text-decoration-none text-dark position-relative">
                             <i className='bi bi-heart fs-5'></i>
                             {wishListCount > 0 && (
