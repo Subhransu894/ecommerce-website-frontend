@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-export function useFetch(url){
+export function useFetch(url,options={}){
     const[data,setData]=useState(null)
     const[loading,setLoading]=useState(false)
     const[error,setError]=useState(null)
@@ -8,7 +8,7 @@ export function useFetch(url){
         try {
             setLoading(true)
 
-            const res =await fetch(url);
+            const res =await fetch(url,options);
             if(!res.ok){
                 throw new Error ("Failed to fetch data");
             }
