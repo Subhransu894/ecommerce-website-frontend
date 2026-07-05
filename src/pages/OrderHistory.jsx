@@ -1,6 +1,11 @@
 import {useFetch} from "../hooks/useFetch"
 export default function OrderHistory(){
-    const {data:orders,loading,error}=useFetch("https://ecommerce-website-backend-umber.vercel.app/api/orders")
+    const token = localStorage.getItem("token")
+    const {data:orders,loading,error}=useFetch("https://ecommerce-website-backend-umber.vercel.app/api/orders",{
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    })
 
     if(loading)return ( <p className="text-center mt-3">Loading...</p> )
     if(error) return ( <p className="text-center mt-3">Error: {error}</p> )
