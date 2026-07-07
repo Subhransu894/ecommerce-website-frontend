@@ -36,7 +36,7 @@ export default function(){
 
     return(
         <>
-        <div style={{ display:"flex", flexDirection:"column", alignItems:"center", marginTop:"20px" }}>
+        <div className="container d-flex flex-column align-items-center mt-4">
             <h2 className="text-center mt-2">Manage Address</h2>
             {message && <p style={{ color:"green" , textAlign:"center" ,marginTop:"10px", fontWeight:"600"}}>{message}</p>}
              <button 
@@ -51,7 +51,7 @@ export default function(){
             </button>
 
             {/* addresslist */}
-            <div style={{width:"400px"}}>
+            <div style={{width:"100%",maxWidth:"400px"}}>
                 {address.length === 0 && <p style={{textAlign:"center",fontWeight:"600",marginTop:"10px"}}>No addresses found. Add new address.</p>}
                 {address.map((add)=>(
                     <div  key={add.id} style={{
@@ -66,12 +66,12 @@ export default function(){
                         ["Email", add.emailid],
                         ["Pincode", add.pincode]
                         ].map(([label, value]) => (
-                        <div key={label} style={{ display:"flex" }}>
+                        <div key={label} style={{ display:"flex",flexWrap:"wrap" }}>
                             <span style={{ width:"100px", fontWeight:"600" }}>{label}:</span>
                             <span style={{ flex:1 }}>{value}</span>
                         </div>
                         ))}
-                        <div style={{ display:"flex", gap:"10px", marginTop:"10px" }}>
+                        <div style={{ display:"flex", gap:"10px", marginTop:"10px",flexWrap:"wrap" }}>
                             <button onClick={() => {
                                     chooseAddress(add.id); 
                                     navigate("/cart")
@@ -109,16 +109,18 @@ export default function(){
                     display:"flex", justifyContent:"center", alignItems:"center"
                     }}
                 >
-                    <div style={{ background:"#fff", padding:"20px", borderRadius:"8px", width:"400px" }}>
+                    <div style={{ background:"#fff", padding:"20px", borderRadius:"8px", width:"90%",maxWidth:"400px" }}>
                         <h2>Add New Address</h2>
                         <form onSubmit={handleAddAddress} style={{ display:"flex", flexDirection:"column", gap:"10px" }}>
-                            <input placeholder="Name" value={form.name} onChange={(e)=>setForm({...form,name:e.target.value})}/>
-                            <input placeholder="Mobile" value={form.phone} onChange={(e)=>setForm({...form,phone:e.target.value})}/>
-                            <input placeholder="Address" value={form.addressPlace} onChange={(e)=>setForm({...form,addressPlace:e.target.value})}/>
-                            <input placeholder="Email" value={form.emailid} onChange={(e)=>setForm({...form,emailid:e.target.value})}/>
-                            <input placeholder="Pincode" value={form.pincode} onChange={(e)=>setForm({...form,pincode:e.target.value})}/>
+                            <input type="text" placeholder="Name" value={form.name} onChange={(e)=>setForm({...form,name:e.target.value})} required/>
+                            <input type="tel" maxLength={10} pattern="[0-9]{10}" placeholder="Mobile" value={form.phone} onChange={(e)=>setForm({...form,phone:e.target.value.replace(/\D/g,"")})}
+                             required title="Enter a valid 10-digit mobile number"/>
+                            <input type="text" placeholder="Address" value={form.addressPlace} onChange={(e)=>setForm({...form,addressPlace:e.target.value})} required/>
+                            <input type="email" placeholder="Email" value={form.emailid} onChange={(e)=>setForm({...form,emailid:e.target.value})} required/>
+                            <input type="text" maxLength={6} pattern="[0-9]{6}" placeholder="Pincode" value={form.pincode} onChange={(e)=>setForm({...form,pincode:e.target.value.replace(/\D/g,"")})} 
+                            required title="Enter a valid 6-digit pincode"/>
 
-                            <div style={{ display:"flex", gap:"10px", marginTop:"10px" }}>
+                            <div style={{ display:"flex", gap:"10px", marginTop:"10px",flexWrap:"wrap" }}>
                                 <button type="submit" 
                                     style={{ flex:1, padding:"8px", background:"#3a86ff", 
                                     color:"#fff", border:"none", borderRadius:"4px", 

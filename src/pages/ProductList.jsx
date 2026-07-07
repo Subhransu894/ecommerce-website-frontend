@@ -112,8 +112,8 @@ export default function ProductList(){
         <>
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-md-3 mb-4">
-                        <div className=" p-3 bg-light">
+                    <div className="col-12 col-lg-3 mb-4">
+                        <div className="p-3 bg-light rounded shadow-sm">
                             <div className="d-flex justify-content-between">
                                 <h5 className="mb-3">Filters</h5>
                                 <Link style={{color:"inherit"}} onClick={clearFilters}>clear</Link>
@@ -196,7 +196,7 @@ export default function ProductList(){
                     </div>
                 
                 {/* Card-grid */}
-                    <div className="col-md-9">
+                    <div className="col-12 col-lg-9">
                         <h2 className="mb-4">showing {category}'s apparel colllections</h2>
                         {console.log(category)}
                         <div className="row g-3">

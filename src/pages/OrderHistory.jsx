@@ -12,13 +12,11 @@ export default function OrderHistory(){
     if(!orders || orders.length === 0) return ( <p className="text-center mt-3">No products yet...</p> )
     return(
         <>
-            <div style={{ padding: "20px" }}>
-                <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Order history</h2>
+            <div className="container py-4">
+                <h2 className="text-center mb-4">Order history</h2>
                 {orders.map((order)=>(
-                    <div key={order._id} 
-                        style={{ border: "1px solid #ccc", borderRadius: "8px", padding: "15px", marginBottom: "15px" }}
-                    >
-                        <p><strong>Order ID:</strong> <span style={{ color: "#555" }}>{order._id}</span></p>
+                    <div key={order._id} className="card mb-3 p-3">
+                        <p><strong>Order ID:</strong> <span style={{ color: "#555",wordBreak:"break-all" }}>{order._id}</span></p>
                         <strong>Status:</strong>{" "}
                         <span style={{ color: order.status === "Placed" ? "green" : "orange", fontWeight: "600" }}>
                         {order.status}
@@ -27,7 +25,7 @@ export default function OrderHistory(){
                         <p><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</p>
 
                         <h4 style={{ marginTop: "15px", marginBottom: "10px", color: "#3a86ff" }}>Items:</h4>
-                        <ul style={{ listStyleType: "circle", paddingLeft: "20px" }}>
+                        <ul className="ps-3">
                             {order.items.map((item)=>(
                                 <li key={item._id} style={{ marginBottom: "5px" }}>
                                     Product Id: {item.productId} , qty:{item.qty}, price: {item.price}
@@ -36,7 +34,7 @@ export default function OrderHistory(){
                         </ul>
 
                         <h4 style={{ marginTop: "15px", marginBottom: "10px", color: "#3a86ff" }}>Delivery Address:</h4>
-                        <p style={{ margin: "0", color: "#555" }}>
+                        <p style={{ margin: "0", color: "#555",wordBreak:"break-word" }}>
                             <strong>Place:</strong> {order.address.fullAddress} | <strong>Pincode:</strong> {order.address.pincode}
                         </p>
                     </div>

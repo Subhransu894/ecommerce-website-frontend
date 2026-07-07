@@ -34,12 +34,13 @@ export default function Home() {
     //Get search text from context
     const { searchItem } = useContext(ShopContext);
 
-    const productList = Array.isArray(prod?.datas) ? prod.datas : [];
+    const productList = Array.isArray(prod?.datas?.products) ? prod.datas.products : [];
 
     //Filter products based on search text
     const filteredProducts =
         productList.filter((p) =>
-        p.name.toLowerCase().includes(searchItem.toLowerCase())
+        p.details.toLowerCase().includes(searchItem.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchItem.toLowerCase())
         ) || [];
 
     const filteredCategories=category.filter((c)=>c.name.toLowerCase().includes(searchItem.toLowerCase()));
@@ -101,7 +102,7 @@ export default function Home() {
                             className="img-fluid"
                             style={{ height: "180px", objectFit: "cover" }}
                             />
-                            <p className="mt-2">{p.name}</p>
+                            <p className="mt-2">{p.details}</p>
                             <p>₹{p.price}</p>
                         </div>
                         </Link>
@@ -159,11 +160,12 @@ export default function Home() {
                         to={`/products/${cat.name.toLowerCase()}`}
                         className="text-decoration-none"
                     >
-                        <div className="position-relative">
+                        <div className="position-relative overflow-hidden rounded shadow-sm">
                         <img
                             src={cat.img}
-                            className="img-fluid"
+                            className="img-fluid w-100"
                             alt={cat.name}
+                            style={{height:"220px",objectFit:"cover"}}
                         />
                         <span
                             className="position-absolute px-2 py-1 text-white rounded"
@@ -190,10 +192,9 @@ export default function Home() {
                     <img
                     src="https://picsum.photos/1240/400?random=5"
                     alt="img5"
-                    className="img-fluid"
+                    className="img-fluid rounded shadow-sm w-100"
                     style={{
-                        width: "100%",
-                        height: "auto",
+                        height:"260px",
                         objectFit: "cover",
                     }}
                     />
@@ -207,22 +208,23 @@ export default function Home() {
                     {collections.map((col) => (
                         <div key={col.id} className="col-12 col-md-6">
                             <div
-                                className="d-flex align-items-center border p-3 bg-white h-100"
+                                className="d-flex flex-column flex-md-row align-items-center border rounded shadow-sm p-3 h-100"
                                 style={{ gap: "20px" }}
                             >
                                 <img
                                 src={col.img}
-                                className="img-fluid"
+                                className="img-fluid rounded"
                                 style={{
                                     width: "150px",
                                     height: "150px",
+                                    maxWidth:"100%",
                                     objectFit: "cover",
                                 }}
                                 />
-                                <div>
-                                <span className="d-block mb-2">New arrival</span>
+                                <div className="text-center text-md-start">
+                                <span className="d-block mb-2 text-secondary">New arrival</span>
                                 <h5>{col.title}</h5>
-                                <p style={{ fontSize: "0.8rem" }}>{col.desc}</p>
+                                <p style={{ fontSize: "0.9rem" }} className="mb-0">{col.desc}</p>
                                 </div>
                             </div>
                         </div>
@@ -234,3 +236,4 @@ export default function Home() {
         </div>
     );
 }
+
