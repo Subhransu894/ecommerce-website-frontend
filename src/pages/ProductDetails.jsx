@@ -380,7 +380,7 @@ export default function ProductDetails(){
                                 <p 
                                     style={{fontSize:"0.95rem",fontWeight:"500",marginBottom:"4px"}} 
                                 >
-                                    Men's Huddy
+                                    {item.details}
                                 </p>
 
                                 <p 
