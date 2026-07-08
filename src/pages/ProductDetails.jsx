@@ -102,8 +102,8 @@ export default function ProductDetails(){
             <div className="container py-5">
                 <div className="row">
                     {/* left-side */}
-                    <div className="col-md-5">
-                        <div className="position-relative" style={{ width: "100%", height: "400px" }} >
+                    <div className="col-12 col-lg-5 mb-4">
+                        <div className="position-relative" style={{ width: "100%", height: "400px",maxHeight:"500px" }} >
                             <img src={prod.image} alt={prod.category} className="w-100 h-100" style={{ objectFit: "cover" }}/>
                             <i className={`bi ${wishIds.includes(prod._id) ? "bi-heart-fill text-danger" : "bi-heart"}`}
                                 style={{ 
@@ -131,8 +131,8 @@ export default function ProductDetails(){
                             }}>Add to Cart</button>
                     </div>
                     {/* right side */}
-                     <div className="col-md-7">
-                        <h5 className="fs-3 mb-2" >{prod.details}</h5>
+                     <div className="col-12 col-lg-7">
+                        <h5 className="fs-2 fs-md-3 mb-2" >{prod.details}</h5>
                         {/* <p>{prod.rating}</p> */}
                         <div className="d-flex align-items-center mb-2 mt-2">
                             <span style={{ marginLeft: "6px",marginRight:"6px"}}>
@@ -155,7 +155,7 @@ export default function ProductDetails(){
                             </div>
                         </div>
                         {/* quantity */}
-                        <div className="d-flex align-items-center mb-2">
+                        <div className="d-flex align-items-center flex-wrap gap-2 mb-3">
                             <p style={{fontWeight:"bold",marginTop:"10px"}}>Quantity: </p>
                             <button className="btn btn-light border"
                                 onClick={handleDecr}
@@ -199,7 +199,7 @@ export default function ProductDetails(){
                             </button>
                         </div>
                         {/* size */}
-                        <div className="d-flex align-items-center mb-2">
+                        <div className="d-flex align-items-center flex-wrap gap-2 mb-3">
                             <p style={{fontWeight:"bold",marginTop:"10px"}}>Size: </p>
                             {Sizes.map((sz)=>(
                                 <button key={sz}
@@ -223,9 +223,9 @@ export default function ProductDetails(){
                         <hr />
 
                         {/* log and plocy phase */}
-                        <div className="d-flex justify-content-start mt-3" style={{marginLeft:"15px"}}>
+                        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 mt-3">
                              {/* 10-Day Return */}
-                            <div style={{ textAlign: "center",marginRight:"15px" }}>
+                            <div style={{ textAlign: "center"}}>
                                 <div
                                     style={{
                                         width: "50px",
@@ -247,7 +247,7 @@ export default function ProductDetails(){
                                 </span>
                             </div>
                             {/* Pay on Delivery */}
-                            <div style={{textAlign: "center",marginRight:"15px"}}>
+                            <div style={{textAlign: "center"}}>
                                 <div 
                                     style={{
                                         width: "50px",
@@ -269,7 +269,7 @@ export default function ProductDetails(){
                                 </span>
                             </div>
                             {/* free delivery */}
-                            <div style={{textAlign:"center",marginRight:"15px"}}>
+                            <div style={{textAlign:"center"}}>
                                 <div 
                                     style={{
                                         width: "50px",
@@ -291,7 +291,7 @@ export default function ProductDetails(){
                                 </span>
                             </div>
                             {/* secure payment */}
-                            <div style={{textAlign:"center",marginRight:"15px"}}>
+                            <div style={{textAlign:"center"}}>
                                 <div 
                                     style={{
                                         width:"50px",
@@ -317,7 +317,7 @@ export default function ProductDetails(){
                         <hr />
 
                         {/* description part */}
-                        <div  style={{ marginLeft: "15px", marginTop: "20px" }}>
+                        <div className="mt-4">
                             <h5 style={{ fontWeight: "bold", marginBottom: "10px" }}>Description: </h5>
                             <ul style={{ paddingLeft: "18px", lineHeight: "1.6" }}>
                                 <li style={{ marginBottom: "2px" }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
@@ -350,7 +350,7 @@ export default function ProductDetails(){
                 <h5 style={{marginTop:"20px",marginBottom:"20px"}}>More items you may like in apparel</h5>
                 <div className="row">
                     {products.map((item)=>(
-                        <div className="col-md-3 mb-4" key={item._id}>
+                        <div className="col-6 col-md-4 col-lg-3 mb-4" key={item._id}>
                              {/* Image part */}
                             <div className="position-relative"
                                 style={{ width: "100%", height: "350px", overflow: "hidden" }}
@@ -380,7 +380,7 @@ export default function ProductDetails(){
                                 <p 
                                     style={{fontSize:"0.95rem",fontWeight:"500",marginBottom:"4px"}} 
                                 >
-                                    Men's Huddy
+                                    {item.details}
                                 </p>
 
                                 <p 

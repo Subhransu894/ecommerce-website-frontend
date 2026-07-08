@@ -25,19 +25,19 @@ export default function WishList(){
     }
     
     return(
-        <div className="container">
+        <div className="container mt-4">
             <h2>Your wishlist</h2>
             {wishList.length === 0 ? ( <p>No products found</p> ) :
                 <div className="row g-3">
                     {wishList.map((item)=>(
                         <div key={item._id} className="col-6 col-md-4 col-lg-3">
                             <div className="card h-100 d-flex flex-column p-2">
-                                <img src={item.image} alt={item.category} className="card-img-top"
+                                <img src={item.image} alt={item.category} className="card-img-top img-fluid"  
                                     style={{ height: "200px", objectFit: "cover" }}
                                 />
-                                <p className="text-center mt-2">{item.details}</p>
+                                <p className="text-center mt-2" style={{minHeight:"45px",fontSize:"0.9rem"}}>{item.details}</p>
                                 <p className="text-center">₹{item.price}</p>
-                                <div className="mt-auto">
+                                <div className="mt-auto d-grid gap-2">
                                     <button className="btn btn-secondary w-100" onClick={()=>handleMoveToCart(item)}>Move to Cart</button>
                                     <button className="btn btn-danger w-100" onClick={()=>handleRemove(item._id)}>Delete</button>
                                 </div>
