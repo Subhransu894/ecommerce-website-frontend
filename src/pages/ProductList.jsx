@@ -13,10 +13,12 @@ export default function ProductList(){
     const {category}=useParams();
     const {searchItem}=useContext(ShopContext)
 
-    const [price,setPrice]=useState(100);
+    const [price,setPrice]=useState(400);
     const[selectedCategory,setSelectedCategory]=useState([])
     const[newRating,setNewRating]=useState("")
     const[sortBy,setSortBy]=useState("lowToHigh")
+
+    const [showFilters,setShowFilters] = useState(false)
     
     const{  cartCount, wishListCount,addItemToCart,addItemToWishList,removeItemFromWishList }=useContext(ShopContext)
 
@@ -61,7 +63,7 @@ export default function ProductList(){
         setSelectedCategory([])
         setNewRating(null)
         setSortBy("")
-        setPrice(100)
+        setPrice(400)
     }
 
     // console.log(products);
@@ -94,7 +96,7 @@ export default function ProductList(){
         const ratingMatch = newRating ? prod.rating >= Number(newRating) : true;
 
         // Price filter
-        const priceMatch = Number(price) === 100 ? true : prod.price <= Number(price);
+        const priceMatch = prod.price <= Number(price)
 
         return searchMatch && categoryMatch && ratingMatch && priceMatch;
     })
@@ -111,8 +113,15 @@ export default function ProductList(){
     return(
         <>
             <div className="container mt-4">
+                {/* mobile filter button */}
+                <div className="d-md-none mb-3">
+                    <button className="btn btn-dark w-100" onClick={()=>setShowFilters(!showFilters)}>
+                        <i className="bi bi-funnel"></i>{" "}
+                        {showFilters ? "HideFilters" : "Show Filters"}
+                    </button>
+                </div>
                 <div className="row">
-                    <div className="col-12 col-lg-3 mb-4">
+                    <div className={`col-12 col-lg-3 mb-4 ${showFilters ? "d-block" : "d-none d-lg-block"}`}>
                         <div className="p-3 bg-light rounded shadow-sm">
                             <div className="d-flex justify-content-between">
                                 <h5 className="mb-3">Filters</h5>
@@ -128,10 +137,10 @@ export default function ProductList(){
                                 value={price} 
                                 onChange={(e)=>setPrice(e.target.value)} className="form-range"
                                 />
-                                <div style={{display:"flex" , justifyContent:"space-between"}}>
-                                    <span>{sortBy === "highToLow" ? 400 : 100}</span>
-                                    <span>250</span>
-                                    <span>{sortBy === "highToLow" ? 100 : 400}</span>
+                                <div className="d-flex justify-content-between">
+                                    <span>100</span>
+                                    <span>Maximum: {price}</span>
+                                    <span>400</span>
                                 </div> 
                             </div>
                             {/* category */}
